@@ -20,24 +20,30 @@ def auth_view(request):
                 identifier = login_form.cleaned_data['identifier']
                 password = login_form.cleaned_data['password']
 
-                try:
-                    if '@' in identifier:
+                user = None
+                if '@' in identifier:
+                    try:                        
                         user_obj = User.objects.get(email=identifier)
-                        username = user_obj.username
-                    else:
-                        username = identifier
+                        user = authenticate(request, username=user_obj.email, password=password)
 
-                    user = authenticate(request, username=username, password=password)
-                    messages.success(request, f"Welcome back, {user.username}!")
-                    if user is not None:
-                        login(request, user)
-                        
-                        return redirect('todo:task_list')
-                    else:
-                        raise User.DoesNotExist  
+                    except User.DoesNotExist:
+                        user = None
+
+                else:
+                    try:
+                        user_obj = User.objects.get(username=identifier)
+                        user = authenticate(request, username=user_obj.email, password=password)
+                    except User.DoesNotExist:
+                        user = None
                 
-                except User.DoesNotExist:
-                    login_form.add_error(None, "Invalid credentials")
+                
+                if user is not None:
+                    login(request, user)
+                    messages.success(request, f"Welcome back, {user.username}!")
+                    return redirect('todo:task_list')
+                else:
+                    login_form.add_error(None, "Invalid credentials")  
+                
 
         elif 'register_submit' in request.POST:
             register_form = CustomUserCreationForm(request.POST)
@@ -55,6 +61,7 @@ def auth_view(request):
         'login_form': login_form,
         'register_form': register_form,
     })
+
 
 
 # a custom logout view (redirecting to index page)

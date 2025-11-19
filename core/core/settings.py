@@ -139,3 +139,6 @@ LOGIN_URL = '/accounts/auth/'
 LOGIN_REDIRECT_URL = '/'        
 LOGOUT_REDIRECT_URL = '/accounts/auth/'
 
+AUTH_USER_MODEL = 'accounts.CustomUserModel'
+
+

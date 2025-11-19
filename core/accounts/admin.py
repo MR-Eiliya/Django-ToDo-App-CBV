@@ -1,9 +1,9 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from django.contrib.auth.models import User
+from .models import CustomUserModel
 
 class CustomUserAdmin(UserAdmin):
-    model = User
+    model = CustomUserModel
     list_display = ('email', 'username', 'is_superuser', 'is_active')
     list_filter = ('is_superuser', 'is_active')
     search_fields = ('email', 'username')
@@ -30,5 +30,4 @@ class CustomUserAdmin(UserAdmin):
     )
 
 
-admin.site.unregister(User)
-admin.site.register(User, CustomUserAdmin)
+admin.site.register(CustomUserModel, CustomUserAdmin)
