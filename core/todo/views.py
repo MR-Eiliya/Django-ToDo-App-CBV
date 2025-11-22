@@ -6,6 +6,8 @@ from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from .forms import TaskUpdateForm
 from django.views import View
 from django.contrib import messages
+from django.core.exceptions import PermissionDenied
+from django.http import HttpResponse
 
 # cbv for showing the task list
 class TaskListView(LoginRequiredMixin, ListView):
@@ -42,9 +44,18 @@ class TaskUpdateView(LoginRequiredMixin, UpdateView):
     template_name = 'todo/task_update.html'
     success_url = reverse_lazy('todo:task_list')
 
-    def get_queryset(self):
-        return Task.objects.filter(user=self.request.user)
-    
+    def get_object(self, queryset=None):
+        try:
+            obj = self.model.objects.get(pk=self.kwargs['pk'])
+        except self.model.DoesNotExist:
+            raise PermissionDenied
+
+        if obj.user != self.request.user:
+            raise PermissionDenied
+
+        return obj   
+
+
 
 # cbv for task complement
 class TaskCompleteView(LoginRequiredMixin, View):
@@ -52,20 +63,33 @@ class TaskCompleteView(LoginRequiredMixin, View):
     success_url = reverse_lazy('todo:task_list')
 
     def get(self, request, *args, **kwargs):
-        object = Task.objects.get(id=kwargs.get("pk"))
-        object.is_completed = not object.is_completed
-        object.save()
+        pk = kwargs.get("pk")
+
+        try:
+            task = self.model.objects.get(pk=pk)
+        except self.model.DoesNotExist:
+            raise PermissionDenied
+
+        if task.user != request.user:
+            raise PermissionDenied
+
+        task.is_completed = not task.is_completed
+        task.save()
         return redirect(self.success_url)
     
 
 # cbv for task deleting
 class TaskDeleteView(LoginRequiredMixin, View):
+    success_url = reverse_lazy('todo:task_list')
+
     def get(self, request, pk):
-        task = get_object_or_404(Task, id=pk, user=request.user)
+        task = Task.objects.filter(pk=pk, user=request.user).first()
+        if not task:
+            return HttpResponse("403 Forbidden", status=403)
+
         task.delete()
-        messages.success(request,"Task has deleted successfully!")
-        return redirect('todo:task_list')
-    
+        messages.success(request, "Task has been deleted successfully!")
+        return redirect(self.success_url)
 
 
 
