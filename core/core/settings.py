@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'todo',
     'rest_framework',
     'django_filters',
-    'drf_spectacular',
+    'drf_yasg',
 ]
 
 MIDDLEWARE = [
@@ -147,7 +147,7 @@ AUTH_USER_MODEL = 'accounts.CustomUserModel'
 
 # rest framework settings
 REST_FRAMEWORK = {
-    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+    'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.openapi.AutoSchema',
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.SessionAuthentication',
     ),
