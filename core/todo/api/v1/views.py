@@ -18,4 +18,6 @@ class TaskModelViewSet(viewsets.ModelViewSet):
     filterset_fields = ['user','is_completed']
     search_fields = ['title']
     ordering_fields = ['published_date']
-    #renderer_classes = [JSONRenderer]
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)

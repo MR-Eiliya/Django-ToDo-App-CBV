@@ -26,5 +26,5 @@ class TaskSerializer(serializers.ModelSerializer):
         return rep
     
     def create(self, validate_data):
-        validate_data['user'] = Profile.objects.get(user__id = self.context.get('request').user.id)
+        validate_data['user'] = self.context['request'].user
         return super().create(validate_data)
