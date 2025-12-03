@@ -15,7 +15,7 @@ class TaskSerializer(serializers.ModelSerializer):
         request = self.context.get('request')
         return request.build_absolute_uri(obj.pk)
     
-    def to_representation(self, instance):
+    """def to_representation(self, instance):
         request = self.context.get('request')
         rep = super().to_representation(instance)
 
@@ -23,7 +23,7 @@ class TaskSerializer(serializers.ModelSerializer):
             rep.pop('title', None)
             rep.pop('is_completed', None)
         
-        return rep
+        return rep"""
     
     def create(self, validate_data):
         validate_data['user'] = self.context['request'].user

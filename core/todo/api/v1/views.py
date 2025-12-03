@@ -18,6 +18,9 @@ class TaskModelViewSet(viewsets.ModelViewSet):
     filterset_fields = ['user','is_completed']
     search_fields = ['title']
     ordering_fields = ['published_date']
+    
+    def get_queryset(self):
+        return Task.objects.filter(user=self.request.user)
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
