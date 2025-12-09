@@ -1,11 +1,11 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import CustomUserModel
+from .models import CustomUserModel, Profile
 
 class CustomUserAdmin(UserAdmin):
     model = CustomUserModel
-    list_display = ('email', 'username', 'is_superuser', 'is_active')
-    list_filter = ('is_superuser', 'is_active')
+    list_display = ('email', 'username', 'is_superuser', 'is_active','is_verified')
+    list_filter = ('email','is_superuser', 'is_active','is_verified')
     search_fields = ('email', 'username')
     ordering = ('email',)
     fieldsets = (
@@ -13,7 +13,7 @@ class CustomUserAdmin(UserAdmin):
             "fields": ('username','email','password'),
         }),
         ('Permissions', {
-            "fields": ('is_staff','is_active','is_superuser'),
+            "fields": ('is_staff','is_active','is_superuser','is_verified'),
         }),
         ('Groups & Permissions', {
             "fields": ('groups','user_permissions'),
@@ -25,9 +25,9 @@ class CustomUserAdmin(UserAdmin):
     add_fieldsets = (
         (None, {
             "classes": ("wide",),
-            "fields": ("email","username","password1","password2","is_staff","is_active","is_superuser")
+            "fields": ("email","username","password1","password2","is_staff","is_active","is_superuser","is_verified")
         }),
     )
 
-
+admin.site.register(Profile)
 admin.site.register(CustomUserModel, CustomUserAdmin)
