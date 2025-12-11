@@ -41,8 +41,10 @@ INSTALLED_APPS = [
     'accounts',
     'todo',
     'rest_framework',
+    'rest_framework.authtoken',
     'django_filters',
     'drf_yasg',
+    'mail_templated',
 ]
 
 MIDDLEWARE = [
@@ -147,17 +149,27 @@ AUTH_USER_MODEL = 'accounts.CustomUserModel'
 
 # rest framework settings
 REST_FRAMEWORK = {
-    'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.openapi.AutoSchema',
-    'DEFAULT_AUTHENTICATION_CLASSES': (
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.BasicAuthentication',
         'rest_framework.authentication.SessionAuthentication',
-    ),
-    'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.IsAuthenticated',
-    ),
+        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ]
 }
+
 
 SESSION_EXPIRE_AT_BROWSER_CLOSE = False
 CSRF_COOKIE_HTTPONLY = False
 SESSION_COOKIE_AGE = 60 * 60 * 24 * 7
+
+
+# Email Configuration
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_USE_TLS = False
+EMAIL_HOST = 'smtp'
+EMAIL_HOST_USER = ''
+EMAIL_HOST_PASSWORD = ''
+EMAIL_PORT = 25
+
 
 
