@@ -29,6 +29,7 @@ from ..utils import EmailThread
 User = get_user_model()
 
 
+# API registration class
 class RegistrationApiView(generics.GenericAPIView):
     serializer_class = RegistrationSerializer
 
@@ -53,7 +54,7 @@ class RegistrationApiView(generics.GenericAPIView):
         return(refresh.access_token)
     
 
-
+# API token login class
 class CustomObtainAuthToken(ObtainAuthToken):
     serializer_class = CustomAuthTokenSerializer
 
@@ -70,6 +71,7 @@ class CustomObtainAuthToken(ObtainAuthToken):
         })
     
 
+# API token logout class
 class CustomDiscardAuthToken(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -77,11 +79,12 @@ class CustomDiscardAuthToken(APIView):
         request.user.auth_token.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
-
+# API class for jwt create
 class CustomTokenObtainPairView(TokenObtainPairView):
     serializer_class = CustomTokenObtainPairSerializer
 
 
+# APi change password view
 class ChangePasswordApiView(generics.GenericAPIView):
     model = User
     permission_classes = [IsAuthenticated]
@@ -103,7 +106,7 @@ class ChangePasswordApiView(generics.GenericAPIView):
             return Response({'details':'Your password changed successfully!'}, status = status.HTTP_200_OK)
         return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
     
-
+# API profile view
 class ProfileApiView(generics.RetrieveUpdateAPIView):
     permission_classes = [IsAuthenticated]
     serializer_class = ProfileSerializer
@@ -114,7 +117,7 @@ class ProfileApiView(generics.RetrieveUpdateAPIView):
         obj = get_object_or_404(queryset, user = self.request.user)
         return obj
     
-
+# Testing email sending
 """class TestEmailSend(APIView):
 
     def get(self, request, *args, **kwargs):
@@ -131,7 +134,7 @@ class ProfileApiView(generics.RetrieveUpdateAPIView):
         return(refresh.access_token)"""
 
 
-
+# User activation API view
 class ActivationApiView(APIView):
 
     def get(self, request, *args, **kwargs):
@@ -156,6 +159,7 @@ class ActivationApiView(APIView):
         return Response({"details": "Your account has been verified and activated successfully!"})
     
 
+# Resending user activation api view
 class ActivationResendApiView(generics.GenericAPIView):
     serializer_class = ActivationResendSerializer
 
@@ -173,7 +177,7 @@ class ActivationResendApiView(generics.GenericAPIView):
         return(refresh.access_token)
 
 
-
+# API password reset class
 class PasswordResetRequestApiView(generics.GenericAPIView):
     serializer_class = PasswordResetRequestSerializer
 
@@ -197,7 +201,7 @@ class PasswordResetRequestApiView(generics.GenericAPIView):
 
         return Response({"details": "Password reset email sent successfully!"}, status=status.HTTP_200_OK)
     
-
+# API confirm password reset class
 class SetNewPasswordApiView(generics.GenericAPIView):
     serializer_class = SetNewPasswordSerializer
 

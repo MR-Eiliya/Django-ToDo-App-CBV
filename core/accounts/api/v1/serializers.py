@@ -7,6 +7,7 @@ from django.utils.translation import gettext_lazy as _
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 
+# Registration Serializer
 class RegistrationSerializer(serializers.ModelSerializer):
     password1 = serializers.CharField(max_length=255, write_only=True)
 
@@ -30,7 +31,7 @@ class RegistrationSerializer(serializers.ModelSerializer):
         return CustomUserModel.objects.create_user(**validate_data)
     
 
-
+# Custom auth token serializer for user login
 class CustomAuthTokenSerializer(serializers.Serializer):
     email = serializers.CharField(
         label=_("email"),
@@ -67,7 +68,7 @@ class CustomAuthTokenSerializer(serializers.Serializer):
         attrs['user'] = user
         return attrs
     
-
+# Serializer for jwt create
 class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
     def validate(self, attrs):
         validated_data =  super().validate(attrs)
@@ -78,6 +79,7 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
         return validated_data
     
 
+# Serializer for changing password
 class ChangePasswordSerializer(serializers.Serializer):
     old_password = serializers.CharField(required=True)
     new_password = serializers.CharField(required=True)
@@ -95,6 +97,7 @@ class ChangePasswordSerializer(serializers.Serializer):
         return super().validate(attrs)
     
 
+# Serializer for Profile and related operations 
 class ProfileSerializer(serializers.ModelSerializer):
     email = serializers.CharField(source='user.email', read_only=True)
 
@@ -104,6 +107,7 @@ class ProfileSerializer(serializers.ModelSerializer):
         read_only_fields = ['email']
 
 
+ #Serializer for resending user activation
 class ActivationResendSerializer(serializers.Serializer):
     email = serializers.EmailField(required=True)
 
@@ -125,7 +129,7 @@ class ActivationResendSerializer(serializers.Serializer):
     
 
 
-
+# Serializer for sending password reset
 class PasswordResetRequestSerializer(serializers.Serializer):
     email = serializers.EmailField(required=True)
 
@@ -139,6 +143,7 @@ class PasswordResetRequestSerializer(serializers.Serializer):
         return super().validate(attrs)
     
 
+# Serializer for password reset confirmation
 class SetNewPasswordSerializer(serializers.Serializer):
     new_password = serializers.CharField(required=True)
     new_password1 = serializers.CharField(required=True)
