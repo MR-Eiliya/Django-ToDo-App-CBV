@@ -6,5 +6,5 @@ from rest_framework.routers import DefaultRouter, SimpleRouter
 app_name = "api-v1"
 
 router = SimpleRouter()
-router.register('task', views.TaskModelViewSet, basename='task')
+router.register("task", views.TaskModelViewSet, basename='task')
 urlpatterns = router.urls
