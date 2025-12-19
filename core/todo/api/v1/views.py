@@ -8,17 +8,16 @@ from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework.renderers import JSONRenderer
 
 
-
 # cbv viewset example
 class TaskModelViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated, IsOwnerOrReadOnly]
     serializer_class = TaskSerializer
     queryset = Task.objects.all()
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
-    filterset_fields = ['user','is_completed']
-    search_fields = ['title']
-    ordering_fields = ['published_date']
-        
+    filterset_fields = ["user", "is_completed"]
+    search_fields = ["title"]
+    ordering_fields = ["published_date"]
+
     def get_queryset(self):
         return Task.objects.filter(user=self.request.user)
 

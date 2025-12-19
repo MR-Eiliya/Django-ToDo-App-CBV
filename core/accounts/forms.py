@@ -3,12 +3,11 @@ from django.contrib.auth.forms import UserCreationForm
 from .models import CustomUserModel
 
 
-
 class CustomLoginForm(forms.Form):
     identifier = forms.CharField(
         label="Username or Email",
         max_length=254,
-        widget=forms.TextInput(attrs={'autofocus': True})
+        widget=forms.TextInput(attrs={"autofocus": True}),
     )
     password = forms.CharField(
         label="Password",
@@ -16,14 +15,13 @@ class CustomLoginForm(forms.Form):
         widget=forms.PasswordInput,
     )
 
+
 class CustomUserCreationForm(UserCreationForm):
     email = forms.EmailField(required=True)
-
 
     class Meta:
         model = CustomUserModel
         fields = ("username", "email", "password1", "password2")
-
 
     def save(self, commit=True):
         user = super().save(commit=False)

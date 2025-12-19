@@ -9,5 +9,5 @@ exclude =
     .env,
     settings.py,
     __init__,
-
+max-line-length = 88
 ignore = E501, E265, F401, F403

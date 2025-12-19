@@ -17,7 +17,8 @@ class Profile(models.Model):
     def __str__(self):
         return self.user.email
 
+
 @receiver(post_save, sender=CustomUserModel)
-def save_profile(sender,instance,created,**kwargs):
+def save_profile(sender, instance, created, **kwargs):
     if created:
         Profile.objects.create(user=instance)

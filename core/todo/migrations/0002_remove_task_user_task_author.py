@@ -7,18 +7,24 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('accounts', '0002_profile'),
-        ('todo', '0001_initial'),
+        ("accounts", "0002_profile"),
+        ("todo", "0001_initial"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='task',
-            name='user',
+            model_name="task",
+            name="user",
         ),
         migrations.AddField(
-            model_name='task',
-            name='author',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='tasks', to='accounts.profile'),
+            model_name="task",
+            name="author",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="tasks",
+                to="accounts.profile",
+            ),
         ),
     ]

@@ -7,29 +7,30 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('accounts', '0003_alter_profile_user'),
+        ("accounts", "0003_alter_profile_user"),
     ]
 
     operations = [
         migrations.AlterModelManagers(
-            name='customusermodel',
-            managers=[
-            ],
+            name="customusermodel",
+            managers=[],
         ),
         migrations.AddField(
-            model_name='customusermodel',
-            name='created_date',
-            field=models.DateTimeField(auto_now_add=True, default=django.utils.timezone.now),
+            model_name="customusermodel",
+            name="created_date",
+            field=models.DateTimeField(
+                auto_now_add=True, default=django.utils.timezone.now
+            ),
             preserve_default=False,
         ),
         migrations.AddField(
-            model_name='customusermodel',
-            name='is_verified',
+            model_name="customusermodel",
+            name="is_verified",
             field=models.BooleanField(default=False),
         ),
         migrations.AddField(
-            model_name='customusermodel',
-            name='updated_date',
+            model_name="customusermodel",
+            name="updated_date",
             field=models.DateTimeField(auto_now=True),
         ),
     ]
