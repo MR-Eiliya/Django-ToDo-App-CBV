@@ -84,7 +84,7 @@
     <div class="today"></div>
     <div class="row">
         <div class="col-md-4 col-md-offset-4 col-xs-6 col-xs-offset-3">
-            <form method="post" action="{% url 'todo:task_create' %}" id="add-form">
+            <form method="post" action="{% url 'todo:task-create' %}" id="add-form">
                 {% csrf_token %}
                 <div class="add-control">
                     <div class="form-group has-feedback">
@@ -103,15 +103,15 @@
 
                     <div class="task-actions">
 
-                        <a class="action complete" href="{% url 'todo:task_complete' task.id %}">
+                        <a class="action complete" href="{% url 'todo:task-complete' task.id %}">
                             <i class="fa {% if task.is_completed %}fa-check-square{% else %}fa-square-o{% endif %}"></i>
                         </a>
 
-                        <a class="action edit" href="{% url 'todo:task_update' task.id %}">
+                        <a class="action edit" href="{% url 'todo:task-update' task.id %}">
                             <i class="fa fa-pencil"></i>
                         </a>
 
-                        <a class="action delete" href="{% url 'todo:task_delete' task.id %}">
+                        <a class="action delete" href="{% url 'todo:task-delete' task.id %}">
                             <i class="fa fa-trash"></i>
                         </a>
 

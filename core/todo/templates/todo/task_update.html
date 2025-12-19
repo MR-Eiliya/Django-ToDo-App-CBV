@@ -10,7 +10,7 @@
                 
             </div>
 
-            <form method="post" action="{% url 'todo:task_update' task.id %}" class="add-control">
+            <form method="post" action="{% url 'todo:task-update' task.id %}" class="add-control">
                 {% csrf_token %}
                 <div class="form-group">
                     {{ form.title }}

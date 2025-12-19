@@ -23,7 +23,7 @@ class TaskListView(LoginRequiredMixin, ListView):
         title = request.POST.get("title")
         if title:
             Task.objects.create(user=request.user, title=title)
-        return redirect("todo:task_list")
+        return redirect("todo:task-list")
 
 
 # cbv for task creation
@@ -31,7 +31,7 @@ class TaskCreateView(LoginRequiredMixin, CreateView):
     model = Task
     fields = ["title"]
     template_name = "todo/task_list.html"
-    success_url = reverse_lazy("todo:task_list")
+    success_url = reverse_lazy("todo:task-list")
 
     def form_valid(self, form):
         form.instance.user = self.request.user
@@ -43,7 +43,7 @@ class TaskUpdateView(LoginRequiredMixin, UpdateView):
     model = Task
     form_class = TaskUpdateForm
     template_name = "todo/task_update.html"
-    success_url = reverse_lazy("todo:task_list")
+    success_url = reverse_lazy("todo:task-list")
 
     def get_object(self, queryset=None):
         try:
@@ -60,7 +60,7 @@ class TaskUpdateView(LoginRequiredMixin, UpdateView):
 # cbv for task complement
 class TaskCompleteView(LoginRequiredMixin, View):
     model = Task
-    success_url = reverse_lazy("todo:task_list")
+    success_url = reverse_lazy("todo:task-list")
 
     def get(self, request, *args, **kwargs):
         pk = kwargs.get("pk")
@@ -80,7 +80,7 @@ class TaskCompleteView(LoginRequiredMixin, View):
 
 # cbv for task deleting
 class TaskDeleteView(LoginRequiredMixin, View):
-    success_url = reverse_lazy("todo:task_list")
+    success_url = reverse_lazy("todo:task-list")
 
     def get(self, request, pk):
         task = Task.objects.filter(pk=pk, user=request.user).first()

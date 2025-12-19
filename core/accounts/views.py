@@ -10,7 +10,7 @@ User = get_user_model()
 # a function for merging login and registration (validating both username and email for login)
 def auth_view(request):
     if request.user.is_authenticated:
-        return redirect("todo:task_list")
+        return redirect("todo:task-list")
     login_form = CustomLoginForm()
     register_form = CustomUserCreationForm()
 
@@ -44,7 +44,7 @@ def auth_view(request):
                 if user is not None:
                     login(request, user)
                     messages.success(request, f"Welcome back, {user.username}!")
-                    return redirect("todo:task_list")
+                    return redirect("todo:task-list")
                 else:
                     login_form.add_error(None, "Invalid credentials")
 
@@ -57,7 +57,7 @@ def auth_view(request):
                     request,
                     f"{user.username} Your account created successfully! Welcome",
                 )
-                return redirect("todo:task_list")
+                return redirect("todo:task-list")
             else:
                 for field, errors in register_form.errors.items():
                     for error in errors:
