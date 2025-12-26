@@ -17,11 +17,42 @@ services:
       - EMAIL_USE_TLS=False
     depends_on:
       - smtp
+      - redis
+
+  celery_worker:
+    build: .
+    container_name: celery_worker
+    command: celery -A core worker -l info
+    volumes:
+      - ./core:/app
+    environment:
+      - SECRET_KEY=test
+      - DEBUG=True
+    depends_on:
+      - redis
+
+  celery_beat:
+    build: .
+    container_name: celery_beat
+    command: celery -A core beat -l info
+    volumes:
+      - ./core:/app
+    environment:
+      - SECRET_KEY=test
+      - DEBUG=True
+    depends_on:
+      - redis
+
+  redis:
+    image: redis:7
+    container_name: redis_todo
+    ports:
+      - "6380:6379"
 
   smtp:
     image: rnwood/smtp4dev
     container_name: smtp4dev2
     ports:
-      - "6025:25"   # SMTP
-      - "5001:80"   # Web UI
+      - "6025:25"
+      - "5001:80"
     restart: unless-stopped
