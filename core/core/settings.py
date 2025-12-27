@@ -174,3 +174,21 @@ EMAIL_HOST = "smtp"
 EMAIL_HOST_USER = ""
 EMAIL_HOST_PASSWORD = ""
 EMAIL_PORT = 25
+
+
+
+# celery config
+CELERY_BROKER_URL = "redis://redis_todo:6379/0"
+CELERY_ACCEPT_CONTENT = ["json"]
+CELERY_TASK_SERIALIZER = "json"
+CELERY_TIMEZONE = "Asia/Tehran"
+
+
+from celery.schedules import crontab
+
+CELERY_BEAT_SCHEDULE = {
+    "delete-completed-tasks-every-10-minutes": {
+        "task": "todo.tasks.delete_completed_tasks",
+        "schedule": crontab(minute="*/10"),
+    },
+}
