@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "accounts",
     "todo",
+    "weather",
     "rest_framework",
     "rest_framework.authtoken",
     "django_filters",
