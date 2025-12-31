@@ -174,3 +174,15 @@ EMAIL_HOST = "smtp"
 EMAIL_HOST_USER = ""
 EMAIL_HOST_PASSWORD = ""
 EMAIL_PORT = 25
+
+
+
+CSRF_COOKIE_SECURE = False
+SESSION_COOKIE_SECURE = False
+
+CSRF_TRUSTED_ORIGINS = [
+    "http://127.0.0.1:81",
+    "http://localhost:81",
+]
+
+
